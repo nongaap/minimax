@@ -1,16 +1,12 @@
 "use strict";
 
 /*
-winningCombo function accepts a board array, winning combinations array, and markers array as parameters and returns a results object.
-Results object returns if there's a winner (true/false), winning combination (array), and winning marker (string)
+winningCombo function accepts a board array, winning combinations array, and markers array as parameters.
+Returns false if no winner and returns winning combination array if there is a winner.
 */
 
 function winningCombo(board, winningCombinations, markers){
-	var result = {
-		winner: false,
-		winningCombo: undefined,
-		winnerMarker: undefined
-	}
+	var result = false;
 
 	if (board === undefined || winningCombinations === undefined || markers === undefined) return result;
 
@@ -25,9 +21,7 @@ function winningCombo(board, winningCombinations, markers){
 	)
 
 	if (winnerMap.length) {
-		result.winner = true;
-		result.winningCombo = winnerMap[0];
-		result.winnerMarker = board[winnerMap[0][0]];
+		result = winnerMap[0];
 	}
 
 	return result;
