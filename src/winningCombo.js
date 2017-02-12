@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-winningCombo function accepts a board array, winning combinations array, and markers array as parameters.
+winningCombo function accepts a board array, winning combinations array, and game markers array as parameters.
 Returns false if no winner and returns winning combination array if there is a winner.
 */
 
