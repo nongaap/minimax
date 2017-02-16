@@ -132,12 +132,18 @@ function minimax(game, depth, maxDepth, alpha, beta) {
 	return value;
 }
 
+function minimaxManager(minimaxAI, argumentsArr) {
+	return function (state) {
+		return minimaxAI(state, ...argumentsArr);
+	}
+}
+
 /*
 gameManager function accepts game board arry, winning combinations array, computer's marker, opponent's marker, and 'empty' marker.
 Returns board array with optimal move added by game AI using max depth of 7 for analysis
 */
 
-function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker){
+function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker, aiCallback){
 	
 	if(arguments.length < 5) { return false}
 	
@@ -200,11 +206,12 @@ function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentM
 
 	var state = new Game(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker)
 
-	 minimax(state, 0, 7, -Infinity, Infinity);
+	 //minimax(state, 0, 7, -Infinity, Infinity);
+
+	 aiCallback(state);
 		
 	return addMove(boardArr, state.optimalChoice, computerMarker);
 
 }
 
-
-module.exports = {availableMoves, addMove, winningCombo, minimaxScore, minimax,gameManager};
+module.exports = {availableMoves, addMove, winningCombo, minimaxScore, minimax, minimaxManager, gameManager};
