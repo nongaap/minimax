@@ -134,7 +134,7 @@ function minimax(game, depth, maxDepth, alpha, beta) {
 
 /*
 gameManager function accepts game board arry, winning combinations array, computer's marker, opponent's marker, and 'empty' marker.
-Returns board array with optimal move added by game AI
+Returns board array with optimal move added by game AI using max depth of 7 for analysis
 */
 
 function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker){
