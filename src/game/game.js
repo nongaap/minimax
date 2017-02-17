@@ -19,7 +19,7 @@ addMove function accepts board(array), index, and marker, and returns new array 
 */
 
 function addMove(board, position, marker){
-	var newBoard = [];
+	let newBoard = [];
 
 	for (let i = 0; i < board.length; i++){
 		if(i === position) {
@@ -37,11 +37,11 @@ Returns false if no winner and returns winning combination array if there is a w
 */
 
 function winningCombo(board, winningCombinations, markers){
-	var result = false;
+	let result = false;
 
 	if (board === undefined || winningCombinations === undefined || markers === undefined) return result;
 
-	var winnerMap = markers.map(marker => 
+	let winnerMap = markers.map(marker => 
 		winningCombinations.find(combo =>
 			combo.every(element => 
 				board[element] === marker
@@ -57,6 +57,7 @@ function winningCombo(board, winningCombinations, markers){
 
 	return result;
 }
+
 
 /*
 minimaxScore function accepts winner (string), maxWinner (string), minWinner(string), and depth of minimax game.
@@ -91,15 +92,15 @@ function minimax(game, depth, maxDepth, alpha, beta) {
 	}
 	
 	depth += 1;
+	
+	let value = game.computerTurn ? -Infinity : Infinity;
+	let move = null;
+	let lowerBound = alpha;
+	let upperBound = beta;
 
-	var value = game.computerTurn ? -Infinity : Infinity;
-	var move = null;
-	var lowerBound = alpha;
-	var upperBound = beta;
-
-	for(var i = 0; i < game.openMoves.length; i++) {		
-		var potentialGame = game.newState(game, game.openMoves[i]);
-		var score = minimax(potentialGame, depth, maxDepth, lowerBound, upperBound);
+	for(let i = 0; i < game.openMoves.length; i++) {		
+		let potentialGame = game.newState(game, game.openMoves[i]);
+		let score = minimax(potentialGame, depth, maxDepth, lowerBound, upperBound);
 
 		if(game.computerTurn) {
 			
@@ -128,13 +129,18 @@ function minimax(game, depth, maxDepth, alpha, beta) {
 	}
 
 	game.optimalChoice = move;
-
+	
 	return value;
 }
 
-function minimaxManager(minimaxAI, argumentsArr) {
+/*
+aiManager function accepts ai callback function and an array of arguments
+Returns function that accepts parameter that is passed into the ai callback along with curried arguments
+*/
+
+function aiManager(aiCallback, argumentsArr) {
 	return function (state) {
-		return minimaxAI(state, ...argumentsArr);
+		return aiCallback(state, ...argumentsArr);
 	}
 }
 
@@ -171,7 +177,6 @@ function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentM
 	Game.prototype = {
 		availableMoves: availableMoves,
 		winningCombo: winningCombo,
-		minimax: minimax,
 		newState: newState,
 		addMove: addMove,
 		winningCombinations: winningCombinationsArr,
@@ -182,20 +187,20 @@ function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentM
 	}
 
 	function newState(game, move) {
-		var newGame = Object.assign(Object.create(Game.prototype),game, {computerTurn: !game.computerTurn, opponentTurn: !game.opponentTurn, activeTurn: !game.computerTurn ? game.computerName : game.opponentName});
+		let newGame = Object.assign(Object.create(Game.prototype),game, {computerTurn: !game.computerTurn, opponentTurn: !game.opponentTurn, activeTurn: !game.computerTurn ? game.computerName : game.opponentName});
 
 		newGame.gameState = newGame.addMove(game.gameState, move, game.computerTurn ? game.computerMarker : game.opponentMarker);
 
 		newGame.openMoves = newGame.availableMoves(newGame.gameState, newGame.openMarker);
 
-		var winCombo = newGame.winningCombo(newGame.gameState,newGame.winningCombinations,newGame.gameMarkers);
+		let winCombo = newGame.winningCombo(newGame.gameState,newGame.winningCombinations,newGame.gameMarkers);
 
 		if(winCombo) {
 			newGame.activeGame = false;
 			newGame.winner = newGame.gameState[winCombo[0]] === newGame.computerMarker ? newGame.computerName : newGame.opponentName;
 		}
 
-		if(newGame.gameState.indexOf(newGame.openMarker) < 0) {
+		if(!winCombo && newGame.gameState.indexOf(newGame.openMarker) < 0) {
 			newGame.activeGame = false;
 			newGame.winner = 'TIE'
 		}
@@ -204,14 +209,13 @@ function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentM
 	}
 
 
-	var state = new Game(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker)
+	let state = new Game(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker)
 
-	 //minimax(state, 0, 7, -Infinity, Infinity);
-
-	 aiCallback(state);
+	aiCallback(state);
 		
 	return addMove(boardArr, state.optimalChoice, computerMarker);
 
 }
 
-module.exports = {availableMoves, addMove, winningCombo, minimaxScore, minimax, minimaxManager, gameManager};
+
+module.exports = {availableMoves, addMove, winningCombo, minimaxScore, minimax, aiManager, gameManager};

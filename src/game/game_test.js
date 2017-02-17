@@ -100,15 +100,19 @@ describe('gameManager function test', function() {
   });
 
   it('Returns optimal move in tic tac toe game', function() {
-    expect(game.gameManager(['X','','','','','','','',''], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'O','X','', game.minimaxManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['X','','','','O','','','','']);
+    expect(game.gameManager(['X','','','','','','','',''], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'O','X','', game.aiManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['X','','','','O','','','','']);
   });
 
   it('Blocks opponent to prevent win', function() {
-    expect(game.gameManager(['O','O','','X','','','','','X'], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'X','O','', game.minimaxManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['O','O','X','X','','','','','X']);
+    expect(game.gameManager(['O','O','','X','','','','','X'], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'X','O','', game.aiManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['O','O','X','X','','','','','X']);
+  });
+
+  it('Blocks opponent to prevent win', function() {
+    expect(game.gameManager(['X','O','','','O','X','X','X','O'], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'O','X','', game.aiManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['X','O','','O','O','X','X','X','O']);
   });
 
   it('Wins game instead of blocking opponent', function() {
-    expect(game.gameManager(['O','O','','X','X','','','','O'], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'X','O','', game.minimaxManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['O','O','','X','X','X','','','O']);
+    expect(game.gameManager(['O','O','','X','X','','','','O'], [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]],'X','O','', game.aiManager(game.minimax, [0, 7, -Infinity, Infinity]))).to.eql(['O','O','','X','X','X','','','O']);
   });
 
 });
