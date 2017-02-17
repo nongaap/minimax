@@ -51,6 +51,5 @@ function fourbyfourAI(board, maxDepth = 7){
 	return game.gameManager(board, winningCombinations,computerMarker,opponentMarker, openMarker, game.aiManager(game.minimax, [0, maxDepth, -Infinity, Infinity]));
 }
 
-console.log(fourbyfourAI(['X','X','X','O','X','O','O','','','X','','','O','O','X','O']))
 
 module.exports = {winningCombinations, currentTurn, gameProgress, fourbyfourAI}
