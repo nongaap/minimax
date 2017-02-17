@@ -4,7 +4,7 @@
   "description": "minimax algorithm",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js"
+    "test": "mocha ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js"
   },
   "repository": {
     "type": "git",
