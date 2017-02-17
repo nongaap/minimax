@@ -38,5 +38,4 @@ function tictactoeAI(board, maxDepth = 7){
 	return game.gameManager(board, winningCombinations,computerMarker,opponentMarker, openMarker, game.aiManager(game.minimax, [0, maxDepth, -Infinity, Infinity]));
 }
 
-
 module.exports = {winningCombinations, currentTurn, tictactoeAI}
