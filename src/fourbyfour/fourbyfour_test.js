@@ -57,6 +57,7 @@ describe('fourbyfourAI function test', function() {
   });
 
   it("fourbyfourAI results in a tie when the function plays itself", function() {
+    this.timeout(5000);
     var input = ['','','','','','','','','','','','','','','',''];
 
     for(var i = 0; i < 16; i++) {

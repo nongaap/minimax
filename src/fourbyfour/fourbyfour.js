@@ -46,7 +46,7 @@ function fourbyfourAI(board, maxDepth = 7){
 	let computerMarker = currentTurn(board)
 	let opponentMarker = computerMarker !== 'X' ? 'X' : 'O'
 
-	if(gameProgress(board) < 8) return game.gameManager(board, winningCombinations,computerMarker,opponentMarker, openMarker, game.aiManager(game.minimax, [0, 3, -Infinity, Infinity]));
+	if(gameProgress(board) < 7) return game.gameManager(board, winningCombinations,computerMarker,opponentMarker, openMarker, game.aiManager(game.minimax, [0, 4, -Infinity, Infinity]));
 
 	return game.gameManager(board, winningCombinations,computerMarker,opponentMarker, openMarker, game.aiManager(game.minimax, [0, maxDepth, -Infinity, Infinity]));
 }
