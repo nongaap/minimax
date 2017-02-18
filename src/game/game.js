@@ -162,7 +162,7 @@ function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentM
 	}
 
 	function Game (boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker) {
-    this.gameState = boardArr;
+    	this.gameState = boardArr;
 		this.activeGame = true;
 		this.computerTurn = true;
 		this.opponentTurn = false;
