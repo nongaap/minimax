@@ -1,221 +1,266 @@
-"use strict";
+/* eslint-disable no-param-reassign */
+/**
+ * availableMoves
+ * @param {Array} arr - Game board array
+ * @param {string} openMarker - Open marker
+ * @returns {Array} Array of index values of available moves on the board
+ */
 
-/*
-availableMoves function accepts board(array) and marker and returns array with index values of available moves on the board for that marker.
-*/
-
-function availableMoves(arr, openMarker){ 
-	return arr.map((marker,index) => {
-		if(marker === openMarker) {
-			return index;
-		}
-	}).filter(marker => {
-		return marker !== undefined;
-	})
+function availableMoves(arr, openMarker) {
+  return arr
+    .map((marker, index) => {
+      if (marker === openMarker) {
+        return index;
+      }
+      return undefined;
+    })
+    .filter(marker => marker !== undefined);
 }
 
-/*
-addMove function accepts board(array), index, and marker, and returns new array with added element.
-*/
+/**
+ * addMove
+ * @param {Array} board - Game board array
+ * @param {number} position - Array index
+ * @param {string} marker - Marker to insert in game board arry
+ * @returns {Array} New game board array with added marker at specified index position
+ */
 
-function addMove(board, position, marker){
-	let newBoard = [];
+function addMove(board, position, marker) {
+  const newBoard = [];
 
-	for (let i = 0; i < board.length; i++){
-		if(i === position) {
-			newBoard.push(marker);
-		} else {
-			newBoard.push(board[i]);
-		}
-	}
-	return newBoard;
+  for (let i = 0; i < board.length; i += 1) {
+    if (i === position) {
+      newBoard.push(marker);
+    } else {
+      newBoard.push(board[i]);
+    }
+  }
+  return newBoard;
 }
 
-/*
-winningCombo function accepts a board array, winning combinations array, and game markers array as parameters.
-Returns false if no winner and returns winning combination array if there is a winner.
-*/
+/**
+ * winningCombo
+ * @param {Array} board - game board array
+ * @param {Array} winningCombinations - winning combinations array
+ * @param {Arry} markers - game markers array
+ * @returns {boolean|Array} False if no winner and winning combination array if there is a winner
+ */
 
-function winningCombo(board, winningCombinations, markers){
-	let result = false;
+function winningCombo(board, winningCombinations, markers) {
+  let result = false;
 
-	if (board === undefined || winningCombinations === undefined || markers === undefined) return result;
+  if (board === undefined || winningCombinations === undefined || markers === undefined) {
+    return result;
+  }
 
-	let winnerMap = markers.map(marker => 
-		winningCombinations.find(combo =>
-			combo.every(element => 
-				board[element] === marker
-			)
-		)
-	).filter(value =>
-		typeof value === 'object'
-	)
+  const winnerMap = markers
+    .map(marker =>
+      winningCombinations.find(combo => combo.every(element => board[element] === marker)),
+    )
+    .filter(value => typeof value === 'object');
 
-	if (winnerMap.length) {
-		result = winnerMap[0];
-	}
+  if (winnerMap.length) {
+    result = winnerMap[0];
+  }
 
-	return result;
+  return result;
 }
 
-
-/*
-minimaxScore function accepts winner (string), maxWinner (string), minWinner(string), and depth of minimax game.
-Returns score
-*/
+/**
+ * minimaxScore
+ * @param {string} winner - Winner
+ * @param {string} maxWinner - Max Winner
+ * @param {string} minWinner - Min Winner
+ * @param {number} depth - Depth of Minimax game
+ * @returns {number} score
+ */
 
 function minimaxScore(winner, maxWinner, minWinner, depth) {
-	if (winner === maxWinner) {
-		return 100 - depth;
-	} else if (winner === minWinner) {
-		return depth - 100;
-	} else {
-		return 0;
-	}
+  if (winner === maxWinner) {
+    return 100 - depth;
+  } else if (winner === minWinner) {
+    return depth - 100;
+  }
+  return 0;
 }
 
-/*
-minimax function accepts game object, depth, max depth and alpha and beta bounds (Alpha Beta pruning).
-Returns score and changes game object's choice to optimal index move
-*/
-
-
-/*
-Alpha - best score by any means. anything less than this can be pruned. Min score Max player will get. initially negative infinity.
-Beta - Worst case for opponent. Anything higher won't be used by opponent. Max score Min player will get. initially infinity
-Beta < Alpha => current position will not result of best play and can be pruned
-*/
+/**
+ * minimax
+ * @param {Object} game - Game Object
+ * @param {number} depth - Depth of game
+ * @param {number} maxDepth - Max depth
+ * @param {number} alpha - Best score. Min score max player will get. Initially negative infinity
+ * @param {number} beta - Worst case for opponent. Max score min player will get. Start at infinity.
+ * @returns {number} score
+ */
 
 function minimax(game, depth, maxDepth, alpha, beta) {
-	if(!game.activeGame || depth === maxDepth) 
-		{ return minimaxScore(game.winner, game.computerName, game.opponentName, depth); 
-	}
-	
-	depth += 1;
-	
-	let value = game.computerTurn ? -Infinity : Infinity;
-	let move = null;
-	let lowerBound = alpha;
-	let upperBound = beta;
+  if (!game.activeGame || depth === maxDepth) {
+    return minimaxScore(game.winner, game.computerName, game.opponentName, depth);
+  }
 
-	for(let i = 0; i < game.openMoves.length; i++) {		
-		let potentialGame = game.newState(game, game.openMoves[i]);
-		let score = minimax(potentialGame, depth, maxDepth, lowerBound, upperBound);
+  depth += 1;
 
-		if(game.computerTurn) {
-			
-			if(score > value) {
-					value = score;
-					move = game.openMoves[i];
-			}			
-			
-			lowerBound = Math.max(lowerBound, score);
-			
-		} else if (!game.computerTurn) {
+  let value = game.computerTurn ? -Infinity : Infinity;
+  let move = null;
+  let lowerBound = alpha;
+  let upperBound = beta;
 
-			if(score < value) {
-				value = score;
-				move = game.openMoves[i];
-			}
-			
-			upperBound = Math.min(upperBound, score);
-		
-		}
+  for (let i = 0; i < game.openMoves.length; i += 1) {
+    const potentialGame = game.newState(game, game.openMoves[i]);
+    const score = minimax(potentialGame, depth, maxDepth, lowerBound, upperBound);
 
-		if (upperBound < lowerBound) {
-			break;
-		}
+    if (game.computerTurn) {
+      if (score > value) {
+        value = score;
+        move = game.openMoves[i];
+      }
 
-	}
+      lowerBound = Math.max(lowerBound, score);
+    } else if (!game.computerTurn) {
+      if (score < value) {
+        value = score;
+        move = game.openMoves[i];
+      }
 
-	game.optimalChoice = move;
-	
-	return value;
+      upperBound = Math.min(upperBound, score);
+    }
+
+    if (upperBound < lowerBound) {
+      break;
+    }
+  }
+
+  game.optimalChoice = move;
+
+  return value;
 }
 
-/*
-aiManager function accepts ai callback function and an array of arguments
-Returns function that accepts parameter that is passed into the ai callback along with curried arguments
-*/
+/**
+ * aiManager
+ * @param {function} aiCallback - Callback function
+ * @param {Array} argumentsArr - Array of arguments
+ * @returns {function} aiCallback function with state and curried arguments
+ */
 
 function aiManager(aiCallback, argumentsArr) {
-	return function (state) {
-		return aiCallback(state, ...argumentsArr);
-	}
+  return function curriedAiCallback(state) {
+    return aiCallback(state, ...argumentsArr);
+  };
 }
 
-/*
-gameManager function accepts game board arry, winning combinations array, computer's marker, opponent's marker, and 'empty' marker.
-Returns board array with optimal move added by game AI using max depth of 7 for analysis
-*/
+/**
+ * gameManager
+ * @param {Array} boardArr - Game board array
+ * @param {Array} winningCombinationsArr - winning combinations array
+ * @param {string} computerMarker - computer's marker
+ * @param {string} opponentMarker - opponent's marker
+ * @param {string} openMarker - emptry marker
+ * @param {Function} aiCallback - callback function
+ * @returns {Array} Board array with optimal move added by game AI using max depth of 7 for analysis
+ */
 
-function gameManager(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker, aiCallback){
-	
-	if(arguments.length < 5) { return false}
-	
-	if(winningCombo(boardArr, winningCombinationsArr, [computerMarker,opponentMarker])) {
-		return boardArr
-	}
+function gameManager(
+  boardArr,
+  winningCombinationsArr,
+  computerMarker,
+  opponentMarker,
+  openMarker,
+  aiCallback,
+) {
+  if (arguments.length < 5) {
+    return false;
+  }
 
-	if(boardArr.indexOf(openMarker) < 0) {
-		return boardArr
-	}
+  if (winningCombo(boardArr, winningCombinationsArr, [computerMarker, opponentMarker])) {
+    return boardArr;
+  }
 
-	function Game (boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker) {
-    	this.gameState = boardArr;
-		this.activeGame = true;
-		this.computerTurn = true;
-		this.opponentTurn = false;
-		this.computerName = 'COMPUTER';
-		this.opponentName = 'OPPONENT';
-		this.activeTurn = 'COMPUTER'
-		this.winner = undefined;
-		this.optimalChoice = undefined;
-		this.openMoves = availableMoves(boardArr, openMarker);
-	}
+  if (boardArr.indexOf(openMarker) < 0) {
+    return boardArr;
+  }
 
-	Game.prototype = {
-		availableMoves: availableMoves,
-		winningCombo: winningCombo,
-		newState: newState,
-		addMove: addMove,
-		winningCombinations: winningCombinationsArr,
-		computerMarker: computerMarker,
-		opponentMarker: opponentMarker,
-		openMarker: openMarker,
-		gameMarkers: [computerMarker,opponentMarker]
-	}
+  function Game(boardArr2, winningCombinationsArr2, computerMarker2, opponentMarker2, openMarker2) {
+    this.gameState = boardArr2;
+    this.activeGame = true;
+    this.computerTurn = true;
+    this.opponentTurn = false;
+    this.computerName = 'COMPUTER';
+    this.opponentName = 'OPPONENT';
+    this.activeTurn = 'COMPUTER';
+    this.winner = undefined;
+    this.optimalChoice = undefined;
+    this.openMoves = availableMoves(boardArr2, openMarker2);
+  }
 
-	function newState(game, move) {
-		let newGame = Object.assign(Object.create(Game.prototype),game, {computerTurn: !game.computerTurn, opponentTurn: !game.opponentTurn, activeTurn: !game.computerTurn ? game.computerName : game.opponentName});
+  function newState(game, move) {
+    const newGame = Object.assign(Object.create(Game.prototype), game, {
+      computerTurn: !game.computerTurn,
+      opponentTurn: !game.opponentTurn,
+      activeTurn: !game.computerTurn ? game.computerName : game.opponentName,
+    });
 
-		newGame.gameState = newGame.addMove(game.gameState, move, game.computerTurn ? game.computerMarker : game.opponentMarker);
+    newGame.gameState = newGame.addMove(
+      game.gameState,
+      move,
+      game.computerTurn ? game.computerMarker : game.opponentMarker,
+    );
 
-		newGame.openMoves = newGame.availableMoves(newGame.gameState, newGame.openMarker);
+    newGame.openMoves = newGame.availableMoves(newGame.gameState, newGame.openMarker);
 
-		let winCombo = newGame.winningCombo(newGame.gameState,newGame.winningCombinations,newGame.gameMarkers);
+    const winCombo = newGame.winningCombo(
+      newGame.gameState,
+      newGame.winningCombinations,
+      newGame.gameMarkers,
+    );
 
-		if(winCombo) {
-			newGame.activeGame = false;
-			newGame.winner = newGame.gameState[winCombo[0]] === newGame.computerMarker ? newGame.computerName : newGame.opponentName;
-		}
+    if (winCombo) {
+      newGame.activeGame = false;
+      newGame.winner =
+        newGame.gameState[winCombo[0]] === newGame.computerMarker
+          ? newGame.computerName
+          : newGame.opponentName;
+    }
 
-		if(!winCombo && newGame.gameState.indexOf(newGame.openMarker) < 0) {
-			newGame.activeGame = false;
-			newGame.winner = 'TIE'
-		}
+    if (!winCombo && newGame.gameState.indexOf(newGame.openMarker) < 0) {
+      newGame.activeGame = false;
+      newGame.winner = 'TIE';
+    }
 
-		return newGame
-	}
+    return newGame;
+  }
 
+  Game.prototype = {
+    availableMoves,
+    winningCombo,
+    newState,
+    addMove,
+    winningCombinations: winningCombinationsArr,
+    computerMarker,
+    opponentMarker,
+    openMarker,
+    gameMarkers: [computerMarker, opponentMarker],
+  };
 
-	let state = new Game(boardArr, winningCombinationsArr, computerMarker, opponentMarker, openMarker)
+  const state = new Game(
+    boardArr,
+    winningCombinationsArr,
+    computerMarker,
+    opponentMarker,
+    openMarker,
+  );
 
-	aiCallback(state);
-		
-	return addMove(boardArr, state.optimalChoice, computerMarker);
+  aiCallback(state);
 
+  return addMove(boardArr, state.optimalChoice, computerMarker);
 }
 
-
-module.exports = {availableMoves, addMove, winningCombo, minimaxScore, minimax, aiManager, gameManager};
+module.exports = {
+  availableMoves,
+  addMove,
+  winningCombo,
+  minimaxScore,
+  minimax,
+  aiManager,
+  gameManager,
+};
