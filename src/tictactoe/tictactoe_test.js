@@ -25,7 +25,7 @@ describe('currentTurn function test', function() {
 
   it('Last move on board returns X', function() {
     expect(tictactoe.currentTurn(['X','X','O','O','O','X','X','O',''])).to.equal('X');
-  });  
+  });
 
 });
 
@@ -44,6 +44,7 @@ describe('tictactoeAI function test', function() {
   });
 
   it("tictactoeAI results in a tie when the function plays itself", function() {
+    this.timeout(10000);
     var input = ['','','','','','','','',''];
 
     for(var i = 0; i < 9; i++) {
@@ -52,7 +53,7 @@ describe('tictactoeAI function test', function() {
 
     var expected = true;
     var actual = !winningCombo(input,tictactoe.winningCombinations,['X','O']) && input.indexOf('') === -1;
-  
+
     expect(actual).to.equal(expected);
   });
 
