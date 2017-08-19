@@ -1,4 +1,4 @@
-
+// @flow
 
 const game = require('../game/game');
 
@@ -13,11 +13,11 @@ const winningCombinations = [
   [2, 4, 6],
 ];
 
-function currentTurn(board) {
+function currentTurn(board: Array<string>): string {
   let x = 0;
   let o = 0;
 
-  board.forEach((element) => {
+  board.forEach((element: string) => {
     if (element === 'X') x += 1;
     if (element === 'O') o += 1;
   });
@@ -25,7 +25,7 @@ function currentTurn(board) {
   return x === o ? 'X' : 'O';
 }
 
-function tictactoeAI(board, maxDepth = 7) {
+function tictactoeAI(board: Array<string>, maxDepth: number = 7): Array<string> {
   const openMarker = '';
   if (board.indexOf('') === -1) return board;
 
