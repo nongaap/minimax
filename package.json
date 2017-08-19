@@ -4,8 +4,10 @@
   "description": "Game using minimax algorithm",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch server ./server/server.js",
-    "test": "mocha ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && ./node_modules/.bin/eslint src server"
+    "start": "nodemon --exec babel-node --watch src ./src/server/server.js",
+    "build": "babel src/ -d lib/",
+    "flow": "flow",
+    "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && ./node_modules/.bin/eslint src"
   },
   "repository": {
     "type": "git",
@@ -18,11 +20,15 @@
   },
   "homepage": "https://github.com/nongaap/minimax#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
+    "babel-preset-flow": "^6.23.0",
     "chai": "^3.5.0",
     "eslint": "^4.4.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-chai-friendly": "^0.4.0",
+    "eslint-plugin-flowtype": "^2.35.0",
+    "flow-bin": "^0.53.1",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0"
   },
