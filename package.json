@@ -7,7 +7,7 @@
     "start": "nodemon --exec babel-node --watch src ./src/server/server.js",
     "build": "babel src/ -d lib/",
     "flow": "flow",
-    "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && ./node_modules/.bin/eslint src"
+    "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && eslint src"
   },
   "repository": {
     "type": "git",
