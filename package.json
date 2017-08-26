@@ -12,8 +12,13 @@
     "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && eslint src"
 =======
     "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && ./node_modules/.bin/eslint src",
+<<<<<<< HEAD
     "webpack": "npm run clean && webpack"
 >>>>>>> 3a5b94f... Webpack, Package.json, babelrc, and eslint updated to support React frontend
+=======
+    "webpack": "npm run clean && webpack",
+    "webpackserver": "webpack-dev-server --hot --inline"
+>>>>>>> 3eaafe2... functionality added for webpack HMR
   },
   "repository": {
     "type": "git",
@@ -47,6 +52,7 @@
     "mocha": "^3.2.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
+    "react-hot-loader": "^1.3.1",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",

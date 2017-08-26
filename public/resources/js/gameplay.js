@@ -1,3 +1,4 @@
+/*eslint-disable */
 $(document).ready(function(){
 
 	var gameSettings = $.extend(true, {}, gameConfig);
@@ -8,7 +9,7 @@ $(document).ready(function(){
 
 	function updateTurn(target, marker1, marker2) {
 		if(target !== marker1) {
-			gameSettings.currentTurn = marker1 
+			gameSettings.currentTurn = marker1
 		} else {
 			gameSettings.currentTurn = marker2
 		}
@@ -71,9 +72,9 @@ $(document).ready(function(){
 
 		if (board === undefined || winningCombinations === undefined || markers === undefined) return result;
 
-		let winnerMap = markers.map(marker => 
+		let winnerMap = markers.map(marker =>
 			winningCombinations.find(combo =>
-				combo.every(element => 
+				combo.every(element =>
 					board[element] === marker
 				)
 			)
@@ -92,8 +93,8 @@ $(document).ready(function(){
 		var result = winningCombo(gameBoard, winningCombinations, markers);
 		if(result) gameSettings.gameStatus = gameBoard[result[0]] + ' Wins';
 
-		if (result === false && gameBoard.indexOf('') === -1) gameSettings.gameStatus = 'Tie';		
-		
+		if (result === false && gameBoard.indexOf('') === -1) gameSettings.gameStatus = 'Tie';
+
 		if(gameSettings.gameStatus !== 'In Progress') {
 			$( '.outcome h2' ).text(gameSettings.gameStatus);
 		}

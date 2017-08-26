@@ -11,12 +11,12 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[hash].js'
   },
   module: {
     rules: [
       {
-        use: 'babel-loader',
+        use: ['react-hot-loader', 'babel-loader'],
         test: /\.js$/,
         exclude: /node_modules/
       },
