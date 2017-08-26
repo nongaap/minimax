@@ -4,10 +4,16 @@
   "description": "Game using minimax algorithm",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf dist",
     "start": "nodemon --exec babel-node --watch src ./src/server/server.js",
     "build": "babel src/ -d lib/",
     "flow": "flow",
+<<<<<<< HEAD
     "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && eslint src"
+=======
+    "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && ./node_modules/.bin/eslint src",
+    "webpack": "npm run clean && webpack"
+>>>>>>> 3a5b94f... Webpack, Package.json, babelrc, and eslint updated to support React frontend
   },
   "repository": {
     "type": "git",
@@ -39,8 +45,10 @@
     "flow-bin": "^0.53.1",
     "html-webpack-plugin": "^2.30.1",
     "mocha": "^3.2.0",
+    "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
     "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.5",
     "webpack-dev-middleware": "^1.12.0",
@@ -49,7 +57,11 @@
   "dependencies": {
     "body-parser": "^1.16.1",
     "cookie-parser": "^1.4.3",
-    "express": "^4.14.1"
+    "es6-promise": "^4.1.1",
+    "express": "^4.14.1",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   },
   "engines": {
     "node": "8.1.4",
