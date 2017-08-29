@@ -10,6 +10,7 @@ function getInitialState() {
       ['', '', ''],
     ],
     turn: 'X',
+    player: 'HUMAN',
     winner: undefined,
   };
 }
@@ -35,6 +36,18 @@ function checkWin(rows) {
   ));
 }
 
+function getCoords(current, next) {
+  const coord = [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]];
+  let output;
+  for (let i = 0; i < current.length; i += 1) {
+    if (current[i] !== next[i]) {
+      output = coord[i];
+      break;
+    }
+  }
+  return output;
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -43,20 +56,50 @@ class App extends Component {
   }
 
   handleClick(row, square) {
-    let { turn, winner } = this.state;
+    let { turn, player, winner } = this.state;
     const { rows } = this.state;
     const squareInQuestion = rows[row][square];
 
     if (this.state.winner) return;
     if (squareInQuestion) return;
+    if (player === 'COMPUTER') return;
 
     rows[row][square] = turn;
+    const flatBoard = rows.reduce((acc, r) => acc.concat(r), []);
     turn = turn === 'X' ? 'O' : 'X';
+    player = 'COMPUTER';
     winner = checkWin(rows);
+
+    fetch('https://gentle-scrubland-19203.herokuapp.com/api', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `board=${JSON.stringify(flatBoard)}`
+    })
+      .then(response => response.json()).then((data) => {
+        let nextMove = getCoords(flatBoard, data.board);
+        if(nextMove) {
+          rows[nextMove[0]][nextMove[1]] = turn;
+          turn = turn === 'X' ? 'O' : 'X';
+          player = 'HUMAN';
+          winner = checkWin(rows);
+          this.setState({
+            rows,
+            turn,
+            player,
+            winner,
+          });
+        }
+        //console.log(getCoords(flatBoard, data.board));
+      })
+      .catch(err => console.log('err ', err));
 
     this.setState({
       rows,
       turn,
+      player,
       winner,
     });
   }

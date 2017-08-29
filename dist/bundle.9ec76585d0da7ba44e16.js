@@ -3,8 +3,9 @@ webpackJsonp([1],{
 /***/ 184:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -36,6 +37,7 @@ function getInitialState() {
   return {
     rows: [['', '', ''], ['', '', ''], ['', '', '']],
     turn: 'X',
+    player: 'HUMAN',
     winner: undefined
   };
 }
@@ -50,6 +52,18 @@ function checkWin(rows) {
   return combos.find(function (combo) {
     return flattened[combo[0]] !== '' && flattened[combo[0]] === flattened[combo[1]] && flattened[combo[1]] === flattened[combo[2]];
   });
+}
+
+function getCoords(current, next) {
+  var coord = [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]];
+  var output = void 0;
+  for (var i = 0; i < current.length; i += 1) {
+    if (current[i] !== next[i]) {
+      output = coord[i];
+      break;
+    }
+  }
+  return output;
 }
 
 var App = function (_Component) {
@@ -68,8 +82,11 @@ var App = function (_Component) {
   _createClass(App, [{
     key: 'handleClick',
     value: function handleClick(row, square) {
+      var _this2 = this;
+
       var _state = this.state,
           turn = _state.turn,
+          player = _state.player,
           winner = _state.winner;
       var rows = this.state.rows;
 
@@ -77,21 +94,55 @@ var App = function (_Component) {
 
       if (this.state.winner) return;
       if (squareInQuestion) return;
+      if (player === 'COMPUTER') return;
 
       rows[row][square] = turn;
+      var flatBoard = rows.reduce(function (acc, r) {
+        return acc.concat(r);
+      }, []);
       turn = turn === 'X' ? 'O' : 'X';
+      player = 'COMPUTER';
       winner = checkWin(rows);
+
+      (0, _isomorphicFetch2.default)('https://gentle-scrubland-19203.herokuapp.com/api', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'board=' + JSON.stringify(flatBoard)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        var nextMove = getCoords(flatBoard, data.board);
+        if (nextMove) {
+          rows[nextMove[0]][nextMove[1]] = turn;
+          turn = turn === 'X' ? 'O' : 'X';
+          player = 'HUMAN';
+          winner = checkWin(rows);
+          _this2.setState({
+            rows: rows,
+            turn: turn,
+            player: player,
+            winner: winner
+          });
+        }
+        //console.log(getCoords(flatBoard, data.board));
+      }).catch(function (err) {
+        return console.log('err ', err);
+      });
 
       this.setState({
         rows: rows,
         turn: turn,
+        player: player,
         winner: winner
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _state2 = this.state,
           rows = _state2.rows,
@@ -141,7 +192,7 @@ var App = function (_Component) {
         _react2.default.createElement(
           'button',
           { id: 'reset', onClick: function onClick() {
-              return _this2.setState(getInitialState());
+              return _this3.setState(getInitialState());
             } },
           'Reset board'
         )
@@ -153,6 +204,8 @@ var App = function (_Component) {
 }(_react.Component);
 
 exports.default = App;
+
+/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "App.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
 
@@ -640,8 +693,9 @@ module.exports = self.fetch.bind(self);
 /***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -680,13 +734,16 @@ Row.propTypes = {
 
 exports.default = Row;
 
+/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "Row.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
 /***/ }),
 
 /***/ 188:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -722,6 +779,8 @@ Square.propTypes = {
 };
 
 exports.default = Square;
+
+/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "Square.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
 
@@ -1314,8 +1373,9 @@ module.exports = function (css) {
 /***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+'use strict';
 
 var _react = __webpack_require__(20);
 
@@ -1334,6 +1394,8 @@ var _application2 = _interopRequireDefault(_application);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _reactDom.render)(_react2.default.createElement(_App2.default, null), document.getElementById('root'));
+
+/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ })
 
