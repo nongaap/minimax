@@ -6,6 +6,9 @@ const expect = chai.expect;
 
 describe('api tictactoe function test', () => {
   const mockObject = {
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
     body: {
       board: '["X","X","O","O","O","X","X","O",""]',
     },
@@ -30,6 +33,9 @@ describe('api tictactoe function test', () => {
 
 describe('api fourbyfour function test', () => {
   const mockObject = {
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
     body: {
       board: '["X","O","O","O","X","X","X","O","O","X","O","X","X","O","X",""]',
     },
