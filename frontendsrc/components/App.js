@@ -70,7 +70,7 @@ class App extends Component {
     player = 'COMPUTER';
     winner = checkWin(rows);
 
-    fetch('https://gentle-scrubland-19203.herokuapp.com/api', {
+    fetch('/api', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -92,7 +92,6 @@ class App extends Component {
             winner,
           });
         }
-        //console.log(getCoords(flatBoard, data.board));
       })
       .catch(err => console.log('err ', err));
 
