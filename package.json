@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "start": "nodemon --exec babel-node --watch src ./src/server/server.js",
-    "build": "babel src/ -d lib/",
+    "build": "babel src/ -d lib/ && npm run clean && webpack",
     "flow": "flow",
 <<<<<<< HEAD
     "test": "mocha --compilers js:babel-core/register ./src/game/game_test.js ./src/tictactoe/tictactoe_test.js ./src/fourbyfour/fourbyfour_test.js ./src/api/api_test.js && eslint src"
