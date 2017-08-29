@@ -104,7 +104,7 @@ var App = function (_Component) {
       player = 'COMPUTER';
       winner = checkWin(rows);
 
-      (0, _isomorphicFetch2.default)('https://gentle-scrubland-19203.herokuapp.com/api', {
+      (0, _isomorphicFetch2.default)('/api', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -127,7 +127,6 @@ var App = function (_Component) {
             winner: winner
           });
         }
-        //console.log(getCoords(flatBoard, data.board));
       }).catch(function (err) {
         return console.log('err ', err);
       });
