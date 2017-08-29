@@ -30,6 +30,7 @@ if (cluster.isMaster) {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(express.static(path.join(__dirname, '../../public')));
+  app.use(express.static(path.join(__dirname, '../../dist')));
 
   app.use(cookieParser());
 
@@ -45,7 +46,7 @@ if (cluster.isMaster) {
   app.use('/api', api);
 
   app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../public', 'tictactoe.html'));
+    res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
   });
 
   app.get('/fourbyfour', (req, res) => {
