@@ -1,3 +1,4 @@
 {
-  "presets": ["babel-preset-env", "react", "flow"]
+  "presets": ["babel-preset-env", "react", "flow"],
+  "ignore": ["*_test.js"]
 }
