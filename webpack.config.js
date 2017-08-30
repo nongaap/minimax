@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const VENDOR_LIBS = ['react', 'react-dom'];
 
@@ -21,7 +22,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
         test: /(\.css|\.scss)$/
       }
     ]
@@ -29,6 +30,10 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest']
+    }),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      allChunks: true,
     }),
     new HtmlWebpackPlugin({
       template: 'frontendsrc/index.html'
