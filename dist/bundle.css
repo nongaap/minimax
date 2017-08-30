@@ -1,0 +1,28 @@
+body {
+  background: #ACCEEC;
+  text-align: center; }
+
+#board {
+  width: 390px;
+  height: 390px;
+  margin: 20px auto;
+  padding: 0; }
+
+.square {
+  box-sizing: border-box;
+  float: left;
+  font-size: 0;
+  line-height: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid gainsboro;
+  margin: 5px;
+  font-size: 2em;
+  font-weight: 550;
+  line-height: 100px;
+  text-align: center;
+  cursor: pointer; }
+  .square:hover {
+    background-color: #d9d9d9; }
