@@ -7,7 +7,8 @@ const VENDOR_LIBS = ['react', 'react-dom'];
 
 module.exports = {
   entry: {
-    bundle: './frontendsrc/index.js',
+    tictactoe: './frontendsrc/index.js',
+    fourbyfour: './frontendsrc/indexFourbyfour.js',
     vendor: VENDOR_LIBS,
   },
   output: {
@@ -44,7 +45,14 @@ module.exports = {
       allChunks: true,
     }),
     new HtmlWebpackPlugin({
+      excludeChunks: ['fourbyfour'],
       template: 'frontendsrc/index.html',
+      filename: 'index.html',
+    }),
+    new HtmlWebpackPlugin({
+      excludeChunks: ['tictactoe'],
+      template: 'frontendsrc/index.html',
+      filename: 'fourbyfour.html',
     }),
   ],
 };

@@ -50,7 +50,7 @@ if (cluster.isMaster) {
   });
 
   app.get('/fourbyfour', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../public', 'fourbyfour.html'));
+    res.sendFile(path.join(__dirname, '../../dist', 'fourbyfour.html'));
   });
 
   app.all('*', (req, res) => {
