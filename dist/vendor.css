@@ -8,6 +8,12 @@ body {
   margin: 20px auto;
   padding: 0; }
 
+#boardFour {
+  width: 520px;
+  height: 520px;
+  margin: 20px auto;
+  padding: 0; }
+
 .square {
   box-sizing: border-box;
   float: left;
