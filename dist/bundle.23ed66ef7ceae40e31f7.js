@@ -38,6 +38,7 @@ function getInitialState() {
     rows: [['', '', ''], ['', '', ''], ['', '', '']],
     turn: 'X',
     player: 'HUMAN',
+    enableO: false,
     winner: undefined
   };
 }
@@ -75,19 +76,67 @@ var App = function (_Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.handleClick = _this.handleClick.bind(_this);
+    _this.oPlayerClick = _this.oPlayerClick.bind(_this);
     _this.state = getInitialState();
     return _this;
   }
 
   _createClass(App, [{
-    key: 'handleClick',
-    value: function handleClick(row, square) {
+    key: 'oPlayerClick',
+    value: function oPlayerClick() {
       var _this2 = this;
 
       var _state = this.state,
           turn = _state.turn,
           player = _state.player,
-          winner = _state.winner;
+          enableO = _state.enableO;
+      var rows = this.state.rows;
+
+      var flatBoard = rows.reduce(function (acc, r) {
+        return acc.concat(r);
+      }, []);
+      if (enableO) return;
+      enableO = true;
+      player = 'COMPUTER';
+      this.setState({
+        enableO: enableO,
+        player: player
+      });
+
+      (0, _isomorphicFetch2.default)('/api', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'board=' + JSON.stringify(flatBoard)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        var nextMove = getCoords(flatBoard, data.board);
+        if (nextMove) {
+          rows[nextMove[0]][nextMove[1]] = turn;
+          turn = turn === 'X' ? 'O' : 'X';
+          player = 'HUMAN';
+          _this2.setState({
+            rows: rows,
+            turn: turn,
+            player: player
+          });
+        }
+      }).catch(function (err) {
+        return console.log('err ', err);
+      });
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick(row, square) {
+      var _this3 = this;
+
+      var _state2 = this.state,
+          turn = _state2.turn,
+          player = _state2.player,
+          winner = _state2.winner;
       var rows = this.state.rows;
 
       var squareInQuestion = rows[row][square];
@@ -120,7 +169,7 @@ var App = function (_Component) {
           turn = turn === 'X' ? 'O' : 'X';
           player = 'HUMAN';
           winner = checkWin(rows);
-          _this2.setState({
+          _this3.setState({
             rows: rows,
             turn: turn,
             player: player,
@@ -141,12 +190,13 @@ var App = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
-      var _state2 = this.state,
-          rows = _state2.rows,
-          turn = _state2.turn,
-          winner = _state2.winner;
+      var _state3 = this.state,
+          rows = _state3.rows,
+          enableO = _state3.enableO,
+          turn = _state3.turn,
+          winner = _state3.winner;
 
       var handleClick = this.handleClick;
 
@@ -174,8 +224,11 @@ var App = function (_Component) {
         infoDiv = _react2.default.createElement(
           'div',
           null,
-          'Turn: ',
-          turn
+          'Current Turn: ',
+          turn,
+          ' (Playing as ',
+          enableO ? 'O' : 'X',
+          ')'
         );
       }
 
@@ -189,11 +242,22 @@ var App = function (_Component) {
           rowElements
         ),
         _react2.default.createElement(
-          'button',
-          { id: 'reset', onClick: function onClick() {
-              return _this3.setState(getInitialState());
-            } },
-          'Reset board'
+          'div',
+          { className: 'button-area' },
+          _react2.default.createElement(
+            'a',
+            { href: '#', id: 'reset', onClick: function onClick() {
+                return _this4.setState(getInitialState());
+              } },
+            'Reset board'
+          ),
+          _react2.default.createElement(
+            'a',
+            { href: '#', id: 'oplayer', onClick: function onClick() {
+                return _this4.oPlayerClick();
+              } },
+            'Play as O'
+          )
         )
       );
     }

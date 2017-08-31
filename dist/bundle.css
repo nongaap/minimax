@@ -26,3 +26,22 @@ body {
   cursor: pointer; }
   .square:hover {
     background-color: #d9d9d9; }
+
+.button-area {
+  margin: 10px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 320px; }
+  .button-area a {
+    background: #F57921;
+    padding: 1em 2.4em;
+    font-size: .9em;
+    margin: 1em;
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+    text-align: center; }
+    .button-area a:hover {
+      background-color: #d9d9d9; }
