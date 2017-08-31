@@ -27,6 +27,14 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/',
+        secure: false
+      }
+    }
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest']
