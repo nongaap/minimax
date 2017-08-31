@@ -12,6 +12,7 @@ function getInitialState() {
     turn: 'X',
     player: 'HUMAN',
     enableO: false,
+    gameStarted: false,
     winner: undefined,
   };
 }
@@ -58,14 +59,17 @@ class App extends Component {
   }
 
   oPlayerClick() {
-    let { turn, player, enableO } = this.state;
+    let { turn, player, gameStarted, enableO } = this.state;
     const { rows } = this.state;
     const flatBoard = rows.reduce((acc, r) => acc.concat(r), []);
+    if (gameStarted) return;
     if (enableO) return;
     enableO = true;
+    gameStarted = true;
     player = 'COMPUTER';
     this.setState({
       enableO,
+      gameStarted,
       player,
     });
 
@@ -94,10 +98,10 @@ class App extends Component {
   }
 
   handleClick(row, square) {
-    let { turn, player, winner } = this.state;
+    let { turn, player, gameStarted, winner } = this.state;
     const { rows } = this.state;
     const squareInQuestion = rows[row][square];
-
+    gameStarted = true;
     if (this.state.winner) return;
     if (squareInQuestion) return;
     if (player === 'COMPUTER') return;
@@ -136,6 +140,7 @@ class App extends Component {
     this.setState({
       rows,
       turn,
+      gameStarted,
       player,
       winner,
     });
