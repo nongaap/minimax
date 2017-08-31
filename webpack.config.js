@@ -8,43 +8,43 @@ const VENDOR_LIBS = ['react', 'react-dom'];
 module.exports = {
   entry: {
     bundle: './frontendsrc/index.js',
-    vendor: VENDOR_LIBS
+    vendor: VENDOR_LIBS,
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].[hash].js'
+    filename: '[name].[hash].js',
   },
   module: {
     rules: [
       {
         use: ['react-hot-loader', 'babel-loader'],
         test: /\.js$/,
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
-        test: /(\.css|\.scss)$/
-      }
-    ]
+        test: /(\.css|\.scss)$/,
+      },
+    ],
   },
   devServer: {
     proxy: {
       '/api': {
         target: 'http://localhost:3000/',
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
+      names: ['vendor', 'manifest'],
     }),
     new ExtractTextPlugin({
       filename: '[name].css',
       allChunks: true,
     }),
     new HtmlWebpackPlugin({
-      template: 'frontendsrc/index.html'
-    })
-  ]
+      template: 'frontendsrc/index.html',
+    }),
+  ],
 };
