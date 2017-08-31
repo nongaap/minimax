@@ -11,6 +11,7 @@ function getInitialState() {
     ],
     turn: 'X',
     player: 'HUMAN',
+    enableO: false,
     winner: undefined,
   };
 }
@@ -52,7 +53,44 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.oPlayerClick = this.oPlayerClick.bind(this);
     this.state = getInitialState();
+  }
+
+  oPlayerClick() {
+    let { turn, player, enableO } = this.state;
+    const { rows } = this.state;
+    const flatBoard = rows.reduce((acc, r) => acc.concat(r), []);
+    if (enableO) return;
+    enableO = true;
+    player = 'COMPUTER';
+    this.setState({
+      enableO,
+      player,
+    });
+
+    fetch('/api', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `board=${JSON.stringify(flatBoard)}`
+    })
+      .then(response => response.json()).then((data) => {
+        const nextMove = getCoords(flatBoard, data.board);
+        if(nextMove) {
+          rows[nextMove[0]][nextMove[1]] = turn;
+          turn = turn === 'X' ? 'O' : 'X';
+          player = 'HUMAN';
+          this.setState({
+            rows,
+            turn,
+            player,
+          });
+        }
+      })
+      .catch(err => console.log('err ', err));
   }
 
   handleClick(row, square) {
@@ -104,7 +142,7 @@ class App extends Component {
   }
 
   render() {
-    const { rows, turn, winner } = this.state;
+    const { rows, enableO, turn, winner } = this.state;
     const handleClick = this.handleClick;
 
     const rowElements = rows.map((letters, i) => (
@@ -120,7 +158,7 @@ class App extends Component {
         </div>
       );
     } else {
-      infoDiv = <div>Turn: {turn}</div>;
+      infoDiv = <div>Current Turn: {turn} (Playing as {enableO ? 'O' : 'X'})</div>;
     }
 
     return (
@@ -129,7 +167,10 @@ class App extends Component {
         <div id="board">
           {rowElements}
         </div>
-        <button id="reset" onClick={() => this.setState(getInitialState())}>Reset board</button>
+        <div className="button-area">
+          <a href="#" id="reset" onClick={() => this.setState(getInitialState())}>Reset board</a>
+          <a href="#"  id="oplayer" onClick={() => this.oPlayerClick()}>Play as O</a>
+        </div>
       </div>
     );
   }
