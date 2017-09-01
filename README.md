@@ -41,11 +41,11 @@ To get started:
 - The game is designed so the computer never loses a game and will always make the most optimal move.
 
 #### API Post Request
-To play a game, send a post request to  http://localhost:3000/api with 'board' as the key and the array as the value.
-- Example: {'board': '["","","","","","","","",""]'}
+To play a game, send a JSON post request to  http://localhost:3000/api with "board" as the key and the array as the value.
+- Example: {"board": ["","","","","","","","",""]}
 
-The server will respond with a board that includes the computers move:
-- Example Post Request: {'board': '["X","","","","","","","",""]'}
-- Subsequent Response: {'board': '["X","","","","O","","","",""]'}
+The server will respond with a JSON board that includes the computers move:
+- Example Post Request: {"board": ["X","","","","","","","",""]}
+- Subsequent Response: {"board": ["X","","","","O","","","",""]}
 
 Additionally, a post request can be made to http://localhost:3000/api/fourbyfour to play a 4x4 game.
