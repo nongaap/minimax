@@ -1,6 +1,6 @@
 webpackJsonp([1],{
 
-/***/ 190:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -13,11 +13,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(34);
 
-var _Fourbyfour = __webpack_require__(191);
+var _Fourbyfour = __webpack_require__(192);
 
 var _Fourbyfour2 = _interopRequireDefault(_Fourbyfour);
 
-var _application = __webpack_require__(85);
+__webpack_require__(85);
+
+var _application = __webpack_require__(86);
 
 var _application2 = _interopRequireDefault(_application);
 
@@ -29,7 +31,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /***/ }),
 
-/***/ 191:
+/***/ 192:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/puangmalai/Desktop/minimax/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -308,4 +310,4 @@ exports.default = Fourbyfour;
 
 /***/ })
 
-},[190]);
+},[191]);

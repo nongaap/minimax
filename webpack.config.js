@@ -26,6 +26,10 @@ module.exports = {
         loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
         test: /(\.css|\.scss)$/,
       },
+      {
+        test: /\.(png|jpg|jpeg|ico|gif|svg|woff|woff2|eot|ttf|otf)$/,
+        loader: 'file-loader?name=[name].[ext]',
+      },
     ],
   },
   devServer: {
@@ -46,11 +50,13 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       excludeChunks: ['fourbyfour'],
+      favicon: 'frontendsrc/assets/images/favicon.ico',
       template: 'frontendsrc/index.html',
       filename: 'index.html',
     }),
     new HtmlWebpackPlugin({
       excludeChunks: ['tictactoe'],
+      favicon: 'frontendsrc/assets/images/favicon.ico',
       template: 'frontendsrc/index.html',
       filename: 'fourbyfour.html',
     }),
