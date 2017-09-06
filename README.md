@@ -4,9 +4,9 @@
 # Tic-Tac-Toe Game
 Tic-Tac-Toe is a tic-tac-toe game built on top of Node.js and opponent AI based on minimax algorithm with alpha beta pruning
 
-Heroku deployed Tic-Tac-Toe (Currently on free tier and loading may be delayed): https://gentle-scrubland-19203.herokuapp.com/
+Heroku deployed Tic-Tac-Toe (Currently on free tier and loading may be delayed): http://www.tictactoealgo.com/
 
-A 4x4 version of the game was also created: https://gentle-scrubland-19203.herokuapp.com/fourbyfour
+A 4x4 version of the game was also created: http://www.tictactoealgo.com/fourbyfour
 
 To play the game locally:
 
